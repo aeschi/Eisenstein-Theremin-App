@@ -84,7 +84,7 @@ const createScene = async function () {
     // ---------- Audio Context ------------------//
 
     //create audio context for all theremin voices
-    ctx = new (AudioContext || webkitAudioContext)();
+    ctx = new (AudioContext || webkitAudioContext);
     ctx.suspend();
 
     //initialize audio context for grainsynth
@@ -99,6 +99,7 @@ const createScene = async function () {
     gainNode = ctx.createGain();
     gainNode.gain.value = 0.5;
     var soundPlaying = false;
+
 
     // Calculate frequency relative to PitchAntenna
     var calculateFrequency = function (distance) {
@@ -222,7 +223,8 @@ const createScene = async function () {
                 if (grainPlaying) {
                     grainGain.disconnect();
                     grainPlaying = false;
-                } else {
+                }
+                else {
                     grainGain = ctx.createGain();
                     grainGain.connect(ctx.destination);
                     bufferSwitch(grainSample);
@@ -238,9 +240,12 @@ const createScene = async function () {
                 grainGain.connect(ctx.destination);
                 bufferSwitch(grainSample);
                 grainPlaying = true;
+
+
             });
         }
     });
+
 
     const SourceInput = pane.addInput(PARAMS, 'source', { options: { Elements: 0, Guitar: 1, Piano: 2 } });
     SourceInput.on('change', function (ev) {
@@ -280,17 +285,18 @@ const createScene = async function () {
 
     const btnTheremin = instr.addButton({ title: 'THEREMIN ► | ◼︎' });
 
+
     btnTheremin.on('click', () => {
         console.log(ctx.state);
-        if (ctx.state === 'running') {
-            // add theremin voice to audio
+        if (ctx.state === 'running') {  // add theremin voice to audio
             console.log(ctx.state);
             if (oscillator) {
                 soundPlaying = false;
                 oscillator.stop(ctx.currentTime);
                 oscillator.disconnect();
                 oscillator = null;
-            } else {
+            }
+            else {
                 soundPlaying = true;
                 oscillator = ctx.createOscillator();
                 oscillator.connect(gainNode);
@@ -316,10 +322,11 @@ const createScene = async function () {
         //             oscillator.start(ctx.currentTime);
         //         }
         //     })
-        //    }
+       //    }
     });
 
     // const btnGrainsynth = instr.addButton({ title: 'GRAINSYNTH ► | ◼︎' });
+
 
     // btnGrainsynth.on('click', () => {
     //     if (ctx.state === 'running'){
@@ -336,6 +343,7 @@ const createScene = async function () {
     //     }
     // }
     // });
+
 
     return scene;
 };
